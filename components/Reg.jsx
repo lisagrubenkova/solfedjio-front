@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { Image, Text, TextInput, TouchableOpacity, StyleSheet, View, ImageBackground } from 'react-native';
 
 export const Reg = ({ onRegister }) => {
   const [login, setLogin] = useState('');
@@ -22,22 +22,23 @@ export const Reg = ({ onRegister }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Логин</Text>
+      <ImageBackground source={require( './imgs/bg.png' )} resizeMode="cover" style={styles.bg}>
+      <Image
+      style = {styles.img}
+      source={require( './imgs/logo.png' )}/>
       <TextInput
         style={styles.input}
-        placeholder="Введите логин"
+        placeholder="Логин"
         onChangeText={(text) => setLogin(text)}
         value={login}
       />
-      <Text style={styles.label}>Пароль</Text>
       <TextInput
         style={styles.input}
-        placeholder="Введите пароль"
+        placeholder="Пароль"
         onChangeText={(text) => setPassword(text)}
         secureTextEntry={true}
         value={password}
       />
-      <Text style={styles.label}>Повторите пароль</Text>
       <TextInput
         style={styles.input}
         placeholder="Повторите пароль"
@@ -47,8 +48,9 @@ export const Reg = ({ onRegister }) => {
       />
       {passwordMatchError && <Text style={styles.errorText}>Пароли не совпадают</Text>}
       <TouchableOpacity style={styles.registerButton} onPress={handleRegisterPress}>
-        <Text style={styles.buttonText}>Зарегистрироваться</Text>
+        <Text style={styles.buttonText}>Регистрация</Text>
       </TouchableOpacity>
+      </ImageBackground>
     </View>
   );
 };
@@ -56,29 +58,40 @@ export const Reg = ({ onRegister }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
-  label: {
-    fontSize: 18,
-    marginBottom: 10,
+  img: {
+    height: 185,
+    width: 150,
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  bg: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   input: {
-    width: '80%',
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 20,
+    width: 217,
+    height: 48,
+    backgroundColor: '#D9D9D9',
+    borderWidth: 0,
+    marginBottom: 10,
     paddingHorizontal: 10,
+    borderRadius: 100,
+    justifyContent: 'center',
+    fontSize: 22,
+    textAlign: 'center',
   },
   registerButton: {
-    backgroundColor: 'blue',
+    backgroundColor: '#4A94D7',
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 100,
+    width: 217,
+    height: 48,
   },
   buttonText: {
-    color: 'white',
-    fontSize: 18,
+    color: 'black',
+    fontSize: 22,
     textAlign: 'center',
   },
   errorText: {

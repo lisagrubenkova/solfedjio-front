@@ -4,28 +4,20 @@ import { StyleSheet, Text, View } from "react-native";
 import { Reg } from "./components/Reg";
 import { Auth } from "./components/Auth";
 import { Start } from "./components/Start";
-
+import { Levels } from "./components/Levels";
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Start"
-          component={Start}
-          options={{ title: 'Проект "Сольфеджио"' }}
-        />
-        <Stack.Screen
-          name="Reg"
-          component={Reg}
-          options={{ title: "Регистрация" }}
-        />
-        <Stack.Screen
-          name="Auth"
-          component={Auth}
-          options={{ title: "Вход" }}
-        />
+      <Stack.Navigator
+        screenOptions={{ headerShown: false }}
+        initialRouteName="Start"
+      >
+        <Stack.Screen name="Start" component={Start} />
+        <Stack.Screen name="Reg" component={Reg} />
+        <Stack.Screen name="Auth" component={Auth} />
+        <Stack.Screen name="Levels" component={Levels} />
       </Stack.Navigator>
     </NavigationContainer>
   );

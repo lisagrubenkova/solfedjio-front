@@ -1,26 +1,36 @@
 import React, { useState } from 'react';
-import { Image, Text, TextInput, TouchableOpacity, StyleSheet, View, ImageBackground } from 'react-native';
+import { Image, Text, TextInput, TouchableOpacity, StyleSheet, View, ImageBackground, Alert } from 'react-native';
+import { HOST, setCookies, cookies, cookiesStorage } from "./Const";
 
 export const Auth = ({ navigation }) => {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
-    // try {
-    //   // Отправка POST-запроса на бэкенд для аутентификации
-    //   const response = await axios.post('https://example.com/api/login', {
-    //     login: login,
-    //     password: password,
-    //   });
-      console.log('Успешный вход:'/*, response.data*/);
+    var details = {
+      'username': login,
+      'password': password
+    };
+    const formBody = Object.entries(details).map(([key, value]) => encodeURIComponent(key) + '=' + encodeURIComponent(value)).join('&');
+    const requestOptions = {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: formBody 
+    };
+    const response = await fetch(HOST + 'auth/jwt/login', requestOptions);
+    if (response.status != 204) {
+      Alert.alert('Неправильный логин или пароль'); 
+    } else {
+      var newCookies = response.headers.get('set-cookie')?.split('; ')[0];
+      await cookiesStorage.set('cookies', newCookies);
+      setCookies(newCookies);
+      Alert.alert('Вы успешно вошли');
       navigation.navigate('Levels');
-      // Дополнительные действия после успешной аутентификации, например, навигация к другому экрану
-    // } catch (error) {
-    //   // Обработка ошибок аутентификации
-    //   console.error('Ошибка входа:', error);
-    //   Alert.alert('Ошибка', 'Неверные учетные данные. Попробуйте еще раз.');
-    // }
+    }
   };
+
   return (
     <View style={styles.container}>
       <ImageBackground source={require( './imgs/bg2.png' )} resizeMode="cover" style={styles.bg}>
@@ -47,6 +57,29 @@ export const Auth = ({ navigation }) => {
     </View>
   );
 };
+
+export async function setAndCheckCookies(setIsAuthorized) {
+  setCookies(await cookiesStorage.get("cookies"));
+  console.log("INITIAL COOKIES: " + cookies);
+  if (cookies != undefined && cookies != null) {
+    fetch(HOST + 'level/check_permissions', {
+      method: 'GET',
+      headers: {
+        'Cookie': cookies
+      }
+    }).then((response) => {
+        if (response.status == 200) {
+          setIsAuthorized(true);
+        } else {
+          setIsAuthorized(false);
+        }
+      }).catch((err) => {
+        console.log(err.message);
+      });
+  } else {
+    setIsAuthorized(false);
+  }
+}
 
 const styles = StyleSheet.create({
   container: {

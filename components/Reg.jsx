@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
-import { Image, Text, TextInput, TouchableOpacity, StyleSheet, View, ImageBackground } from 'react-native';
+import { Image, Text, TextInput, TouchableOpacity, StyleSheet, View, ImageBackground, Alert } from 'react-native';
+import { HOST, cookiesStorage } from "./Const";
 
-export const Reg = ({ onRegister }) => {
+export const Reg = ({ navigation }) => {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordMatchError, setPasswordMatchError] = useState(false);
 
-  const handleRegisterPress = () => {
-    // Проверка на совпадение паролей
+  const handleRegisterPress = async () => {
+    const cookies = await cookiesStorage.get('cookies');
+    console.log(cookies);
     if (password === confirmPassword) {
-      // Передаем данные для регистрации вверх
-      onRegister({ login, password });
-      // Сброс ошибки при совпадении паролей
+      onRegister(login, password, navigation);
       setPasswordMatchError(false);
     } else {
-      // Показываем ошибку, если пароли не совпадают
       setPasswordMatchError(true);
     }
   };
@@ -54,6 +53,29 @@ export const Reg = ({ onRegister }) => {
     </View>
   );
 };
+
+function onRegister(login, password, navigation) {
+  const reqOpt = {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            email: login,
+            password: password
+          })
+  };
+  fetch(HOST + 'auth/register', reqOpt)
+    .then((response) => {
+      if (response.status != 201) {
+        Alert.alert('Попробуйте другой логин или пароль!');
+      } else {
+        navigation.navigate('Start');
+        Alert.alert('Вы были успешно зарегестрированны');
+      }
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+}
 
 const styles = StyleSheet.create({
   container: {

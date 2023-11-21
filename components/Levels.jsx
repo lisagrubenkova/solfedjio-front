@@ -1,14 +1,19 @@
 import { TopMenu } from './TopMenu';
 import { Menu } from './Menu';
 import React from 'react';
+import { useState } from 'react';
 import { StyleSheet, View, Text, ScrollView, TouchableOpacity} from 'react-native';
 
-export const Levels = () => {
+export const Levels = ({navigation}) => {
+    const [levelsActive, setLevelsActive] = useState(true);
+    const [rewardActive, setRewardActive] = useState(false);
+    const [theoryActive, setTheoryActive] = useState(false);
+    const [userActive, setUserActive] = useState(false);
     return (
         <View style={styles.container}>
             <TopMenu/>
             <ScrollView style={styles.scrollView}>
-            <TouchableOpacity style={styles.level}>
+            <TouchableOpacity style={styles.level} onPress={() => navigation.navigate('Level1')}>
         <Text style={styles.buttonText}>1</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.levelRight}>
@@ -21,7 +26,11 @@ export const Levels = () => {
         <Text style={styles.buttonText}>4</Text>
       </TouchableOpacity>
           </ScrollView>
-          <Menu/>
+          <Menu navigation={navigation} levelsActive={levelsActive} 
+          setLevelsActive={setLevelsActive}
+          rewardActive={rewardActive} setRewardActive={setRewardActive}
+          theoryActive={theoryActive} setTheoryActive={setTheoryActive}
+          userActive={userActive} setUserActive={setUserActive}/>
         </View>
     )
 }
@@ -29,7 +38,6 @@ export const Levels = () => {
 const styles = StyleSheet.create({
     level: {
      backgroundColor: '#FE7579',
-     width: 80,
      height: 75,
      borderRadius:20, 
      justifyContent: 'center',
@@ -38,6 +46,15 @@ const styles = StyleSheet.create({
     },
     levelRight: {
         backgroundColor: '#FE7579',
+        width: 80,
+        height: 75,
+        borderRadius:20, 
+        justifyContent: 'center',
+        marginLeft: 265,
+        marginTop: 20
+    },
+    levelRightDisabled: {
+        backgroundColor: '#ACA3A3',
         width: 80,
         height: 75,
         borderRadius:20, 

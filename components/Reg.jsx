@@ -68,7 +68,7 @@ function onRegister(login, password, navigation) {
       if (response.status != 201) {
         Alert.alert('Попробуйте другой логин или пароль!');
       } else {
-        navigation.navigate('Start');
+        navigation.navigate('Main');
         Alert.alert('Вы были успешно зарегестрированны');
       }
     })

@@ -10,7 +10,6 @@ export const Rewards = ({navigation}) => {
     const [userActive, setUserActive] = useState(false);
     return (
         <View style={styles.container}>
-            <TopMenu/>
             <ScrollView>
                 <View style={styles.rewardsList}>
                 <TouchableOpacity style={styles.reward}/>
@@ -33,11 +32,6 @@ export const Rewards = ({navigation}) => {
                 <TouchableOpacity style={styles.reward}/>
                 </View>
             </ScrollView>
-            <Menu navigation={navigation} levelsActive={levelsActive} 
-          setLevelsActive={setLevelsActive}
-          rewardActive={rewardActive} setRewardActive={setRewardActive}
-          theoryActive={theoryActive} setTheoryActive={setTheoryActive}
-          userActive={userActive} setUserActive={setUserActive}/>
         </View>
     )
 }

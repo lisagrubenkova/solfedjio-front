@@ -7,10 +7,14 @@ import { Auth, setAndCheckCookies } from "./components/Auth";
 import { Start } from "./components/Start";
 import { Levels } from "./components/Levels";
 import { Level1 } from "./components/Level1";
+import { Level2 } from "./components/Level2";
+import { Level3 } from "./components/Level3";
 import { Rewards } from "./components/Rewards";
 import { Theory } from "./components/Theory";
 import { User } from "./components/User";
 import { Theory1 } from "./components/Theory1";
+import { Level } from "./components/Level";
+import { Main } from "./components/Main";
 
 const Stack = createStackNavigator();
 
@@ -53,7 +57,11 @@ export default function App() {
         <Stack.Screen name="Theory" component={Theory} />
         <Stack.Screen name="User" component={User} />
         <Stack.Screen name="Level1" component={Level1} />
+        <Stack.Screen name="Level2" component={Level2} />
+        <Stack.Screen name="Level3" component={Level3} />
         <Stack.Screen name="Theory1" component={Theory1} />
+        <Stack.Screen name="Level" component={Level} />
+        <Stack.Screen name="Main" component={Main} />
       </Stack.Navigator>
     </NavigationContainer>
   );

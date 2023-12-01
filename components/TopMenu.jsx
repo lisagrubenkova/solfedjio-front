@@ -20,7 +20,6 @@ export const TopMenu = () => {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#878787',
-        width: 390,
         height: 100,
         justifyContent: 'center',
         alignItems: 'center',

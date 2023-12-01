@@ -10,7 +10,6 @@ export const Theory = ({navigation}) => {
     const [userActive, setUserActive] = useState(false);
     return (
         <View style={styles.container}>
-            <TopMenu/>
             <ScrollView>
                 <View style={styles.theoryList}>
                 <TouchableOpacity style={styles.theory} onPress={() => navigation.navigate('Theory1')}>
@@ -42,11 +41,6 @@ export const Theory = ({navigation}) => {
                 </TouchableOpacity>
                 </View>
             </ScrollView>
-            <Menu navigation={navigation} levelsActive={levelsActive} 
-          setLevelsActive={setLevelsActive}
-          rewardActive={rewardActive} setRewardActive={setRewardActive}
-          theoryActive={theoryActive} setTheoryActive={setTheoryActive}
-          userActive={userActive} setUserActive={setUserActive}/>
         </View>
     )
 }

@@ -27,7 +27,7 @@ export const Auth = ({ navigation }) => {
       await cookiesStorage.set('cookies', newCookies);
       setCookies(newCookies);
       Alert.alert('Вы успешно вошли');
-      navigation.navigate('Levels');
+      navigation.navigate('Main');
     }
   };
 

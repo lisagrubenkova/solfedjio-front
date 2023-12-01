@@ -1,25 +1,51 @@
 import React from 'react';
-import { StyleSheet, Alert, View, Text, TouchableOpacity, Image} from 'react-native';
+import { StyleSheet, Alert, View, Text, ScrollView, TouchableOpacity, Image} from 'react-native';
 import { TopMenu } from './TopMenu';
-export const Level1 = () => {
-    const rightAnswer = 'До';
-    const answerHandler = (answer, rightAnswer) => {
-        if (answer == rightAnswer) {
-            return (
-                Alert.alert('правильно')
-            );
-        } else {
-            Alert.alert('неправильно');
-            return null; 
-        }
-    };
+import { useState } from 'react';
+import {Audio} from 'expo-av'
+
+export const Level2 = () => {
+    const [isPlaying, setIsPlaying] = useState(false);
+  const [sound, setSound] = useState();
+
+  const playSound = async () => {
+    const { sound } = await Audio.Sound.createAsync(
+      require('./sounds/C4.mp3')
+    );
+    setSound(sound);
+
+    sound.setOnPlaybackStatusUpdate((status) => {
+      if (status.didJustFinish) {
+        setIsPlaying(false);
+      }
+    });
+
+    await sound.playAsync();
+    setIsPlaying(true);
+  };
+
+  const togglePlayback = async () => {
+    if (isPlaying) {
+      await sound.pauseAsync();
+      setIsPlaying(false);
+    } else {
+      await playSound();
+    }
+  };
     return (
+        
         <View>
             <TopMenu/>
-            <Image source={require( './imgs/do.png' )}/>
+
+            <TouchableOpacity onPress={togglePlayback}>
+        <Image
+          source={require('./imgs/play.png')}
+          style={{ width: 100, height: 100 }} // Размеры изображения
+        />
+      </TouchableOpacity>
             <Text style={styles.question}>Что это за нота?</Text>
             <View style={styles.answers}>
-            <TouchableOpacity style={styles.answer} onPress={() => answerHandler(answer='До', rightAnswer)}>
+            <TouchableOpacity style={styles.answer} onPress={() => Alert.alert('правильно')}>
                 <Text style={styles.answerText}>До</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.answer} onPress={() => Alert.alert('нет(')}>

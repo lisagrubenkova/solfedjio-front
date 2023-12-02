@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, Alert, View, Text, ScrollView, TouchableOpacity, Image} from 'react-native';
-import { TopMenu } from './TopMenu';
-import { Menu } from './Menu';
-export const Theory1 = ({navigation}) => {
+import { TopMenu } from '../TopMenu';
+import { Menu } from '../Menu';
+import { StyleSheet, View, Text, ScrollView, Image} from 'react-native';
+export const Theory1 = () => {
     return (
         <View style={styles.container}>
             <TopMenu/>
@@ -11,9 +11,9 @@ export const Theory1 = ({navigation}) => {
                     Существует семь основных звуков: до, ре, ми, фа, соль, ля, си. Они соответствуют белым клавишам фортепиано.
                     Пять линий, на которых пишутся ноты, называются нотным станом или нотносцем. Нумерация линий - снизу вверх. Ноты могут располагаться на линиях и между ними.
                 </Text>
-                <Image style={styles.img} source={require('./imgs/gamma.webp')}></Image>
+                <Image style={styles.img} source={require('./gamma.webp')}></Image>
             </ScrollView>
-            <Menu navigation={navigation}/>
+            <Menu/>
         </View>
     )
 }

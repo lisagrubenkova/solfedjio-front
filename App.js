@@ -5,16 +5,16 @@ import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import { Reg } from "./components/Reg";
 import { Auth, setAndCheckCookies } from "./components/Auth";
 import { Start } from "./components/Start";
-import { Levels } from "./components/Levels";
-import { Level1 } from "./components/Level1";
-import { Level2 } from "./components/Level2";
-import { Level3 } from "./components/Level3";
-import { Rewards } from "./components/Rewards";
-import { Theory } from "./components/Theory";
+import { Levels } from "./components/LevelsPage/Levels";
+import { Rewards } from "./components/RewardsPage/Rewards";
+import { Theory } from "./components/TheoryPage/Theory";
 import { User } from "./components/User";
-import { Theory1 } from "./components/Theory1";
-import { Level } from "./components/Level";
+import { Theory1 } from "./components/TheoryPage/Theory1";
+import { Level } from "./components/LevelsPage/Level";
 import { Main } from "./components/Main";
+import { TaskType1 } from "./components/TaskType1";
+import { TaskType2 } from "./components/TaskType2";
+import { TaskType3 } from "./components/TaskType3";
 
 const Stack = createStackNavigator();
 
@@ -44,7 +44,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {isAuthorized ? (
-          <Stack.Screen name="InitLevels" component={Levels} />
+          <Stack.Screen name="InitLevels" component={Main} />
         ) : (
           <Stack.Screen name="InitStart" component={Start} />
         )}
@@ -56,12 +56,12 @@ export default function App() {
         <Stack.Screen name="Rewards" component={Rewards} />
         <Stack.Screen name="Theory" component={Theory} />
         <Stack.Screen name="User" component={User} />
-        <Stack.Screen name="Level1" component={Level1} />
-        <Stack.Screen name="Level2" component={Level2} />
-        <Stack.Screen name="Level3" component={Level3} />
         <Stack.Screen name="Theory1" component={Theory1} />
         <Stack.Screen name="Level" component={Level} />
         <Stack.Screen name="Main" component={Main} />
+        <Stack.Screen name="TaskType1" component={TaskType1} />
+        <Stack.Screen name="TaskType2" component={TaskType2} />
+        <Stack.Screen name="TaskType3" component={TaskType3} />
       </Stack.Navigator>
     </NavigationContainer>
   );

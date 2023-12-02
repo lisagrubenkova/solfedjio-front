@@ -1,13 +1,6 @@
 import React from 'react';
-import { StyleSheet, Alert, View, Text, ScrollView, TouchableOpacity, Image} from 'react-native';
-import { TopMenu } from './TopMenu';
-import { Menu } from './Menu';
-import { useState } from 'react';
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity} from 'react-native';
 export const Theory = ({navigation}) => {
-    const [levelsActive, setLevelsActive] = useState(false);
-    const [rewardActive, setRewardActive] = useState(false);
-    const [theoryActive, setTheoryActive] = useState(true);
-    const [userActive, setUserActive] = useState(false);
     return (
         <View style={styles.container}>
             <ScrollView>

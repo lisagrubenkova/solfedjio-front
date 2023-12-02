@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Alert, View, Text, ScrollView, TouchableOpacity, Image} from 'react-native';
 import { TopMenu } from './TopMenu';
 import {Piano} from './Piano';
-export const Level3 = () => {
+export const TaskType3 = () => {
     return (
         
         <View>

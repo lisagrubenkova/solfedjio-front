@@ -1,14 +1,14 @@
 import { TopMenu } from './TopMenu';
-import { Levels } from './Levels';
-import { Rewards } from './Rewards';
-import { Theory } from './Theory';
+import { Levels } from './LevelsPage/Levels';
+import { Rewards } from './RewardsPage/Rewards';
+import { Theory } from './TheoryPage/Theory';
 import { User } from './User';
 import { Menu } from './Menu';
 import React from 'react';
 import { useState } from 'react';
 import { StyleSheet, View, ScrollView} from 'react-native';
 
-export const Main = () => {
+export const Main = ({navigation}) => {
     // const [levelsActive, setLevelsActive] = useState(true);
     // const [rewardActive, setRewardActive] = useState(false);
     // const [theoryActive, setTheoryActive] = useState(false);
@@ -19,9 +19,9 @@ export const Main = () => {
     return (
         <View style={styles.container}>
             <TopMenu/>
-             {currentScreen === 'Levels' ? <Levels /> : null}
+             {currentScreen === 'Levels' ? <Levels navigation={navigation}/> : null}
              {currentScreen === 'Rewards' ? <Rewards /> : null}
-             {currentScreen === 'Theory' ? <Theory /> : null}
+             {currentScreen === 'Theory' ? <Theory navigation={navigation}/> : null}
              {currentScreen === 'User' ? <User /> : null}
           <Menu setCurrentScreen={setCurrentScreen} currentScreen={currentScreen}  />
         </View>

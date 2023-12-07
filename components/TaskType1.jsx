@@ -3,9 +3,14 @@ import { StyleSheet, Modal, Button, Alert, View, Text, TouchableOpacity, Image} 
 import { TopMenu } from './TopMenu';
 import { useState } from 'react';
 import { TaskType2 } from './TaskType2';
-export const TaskType1 = ({navigation}) => {
+export const TaskType1 = ({ route, navigation }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [answerStatus, setAnswerStatus] = useState(null);
+
+    const { levelId, tasks, index } = route.params;
+    console.log(levelId);
+    console.log(tasks);
+    console.log(index);
 
     const rightAnswer = 'До';
     

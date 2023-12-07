@@ -1,36 +1,56 @@
 import { Level } from './Level';
-import React from 'react';
-import { useState } from 'react';
+import React, { useState, useEffect } from "react";
+import { HOST, cookies, SplashScreen } from "../Const";
 import { StyleSheet, View, Text, ScrollView, TouchableOpacity} from 'react-native';
 
 export const Levels = ({navigation}) => {
-    const state = {
-      Levels: [
-        {
-          id: 2
-        },
-        {
-          id: 3
-        },
-        {
-          id: 4,
-        }
-      ]
-    }
+  const [loading, setLoading] = useState(true);
+  const [levels, setLevels] = useState(null);
 
-    const LevelsElements = state.Levels.map((level) => <Level id={level.id} />)
-    return (
-        <View style={styles.container}>
-            <ScrollView style={styles.scrollView}>
-            <View>
-        <TouchableOpacity style={styles.level} onPress={() => navigation.navigate('TaskType1')}>
-        <Text style={styles.buttonText}>1</Text>
-      </TouchableOpacity>
-      </View>
-               {LevelsElements}
-          </ScrollView>
-        </View>
-    )
+  useEffect(async () => {
+    try {
+      setLoading(true);
+      const data = await level_list();
+      setLevels(data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  }, []);
+
+  if (loading) {
+    return <SplashScreen />;
+  }
+  // FOR TEST levels = [{"id": 1, "title": "Level1"}, {"id": 2, "title": "lelev22"}, {"id": 3, "title": "string"}, {"id": 4, "title": "new"}, {"id": 5, "title": "old"}, {"id": 6, "title": "xcvx"}, {"id": 7, "title": "opdof"}, {"id": 8, "title": "3432"}, {"id": 9, "title": "fgd"}]
+  const LevelsElements = levels.map((level) => 
+  <Level key={level.id} id={level.id} navigation={navigation}/>)
+
+  return (
+    <View style={styles.container}> 
+      <ScrollView style={styles.scrollView}> 
+        {LevelsElements}
+      </ScrollView>
+    </View>
+  )
+}
+
+async function level_list() {
+  const requestOptions = {
+    method: 'GET',
+    headers: { 
+      'Content-Type': 'application/json',
+      Cookie: cookies
+    }
+  };
+  const levels = await fetch(HOST + 'level/?order=id', requestOptions)
+  .then(response => response.json())
+  .then(json => json.result)
+  .catch((err) => {
+    console.log(err.message);
+  });
+
+  return levels;
 }
 
 const styles = StyleSheet.create({

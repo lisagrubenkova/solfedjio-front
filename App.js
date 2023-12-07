@@ -15,12 +15,13 @@ import { Main } from "./components/Main";
 import { TaskType1 } from "./components/TaskType1";
 import { TaskType2 } from "./components/TaskType2";
 import { TaskType3 } from "./components/TaskType3";
+import { SplashScreen } from "./components/Const";
 
 const Stack = createStackNavigator();
 
 export default function App() {
   const [isLoading, setIsLoading] = React.useState(true);
-  const [isAuthorized, setIsAuthorized] = React.useState(true);
+  const [isAuthorized, setIsAuthorized] = React.useState(false);
 
   const getIsAuthorized = async () => {
     try {
@@ -64,15 +65,6 @@ export default function App() {
         <Stack.Screen name="TaskType3" component={TaskType3} />
       </Stack.Navigator>
     </NavigationContainer>
-  );
-}
-
-function SplashScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Getting token...</Text>
-      <ActivityIndicator size="large" />
-    </View>
   );
 }
 

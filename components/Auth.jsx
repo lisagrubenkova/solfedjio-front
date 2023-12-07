@@ -60,6 +60,7 @@ export const Auth = ({ navigation }) => {
 
 export async function setAndCheckCookies(setIsAuthorized) {
   setCookies(await cookiesStorage.get("cookies"));
+  //setCookies("123");
   console.log("INITIAL COOKIES: " + cookies);
   if (cookies != undefined && cookies != null) {
     fetch(HOST + 'level/check_permissions', {

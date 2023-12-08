@@ -4,13 +4,17 @@ import { TopMenu } from './TopMenu';
 import { useState } from 'react';
 import {Audio} from 'expo-av'
 
-export const TaskType2 = (navigation) => {
+export const TaskType2 = ({ route, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
-    const [answerStatus, setAnswerStatus] = useState(null);
+  const [answerStatus, setAnswerStatus] = useState(null);
 
-    const rightAnswer = 'До';
-    const answerHandler = (answer, rightAnswer) => {
-      if (answer === rightAnswer) {
+  const { levelId, tasks, index } = route.params;
+    console.log(levelId);
+    console.log(tasks);
+    console.log(index);
+    
+    const answerHandler = (answer) => {
+      if (answer) {
           setAnswerStatus('correct');
     setModalVisible(true);
   } else {
@@ -45,7 +49,11 @@ export const TaskType2 = (navigation) => {
       await playSound();
     }
   };
-    return (
+
+  const AnswersElements = tasks[index].answers.map((answer) =>  <TouchableOpacity style={styles.answer} onPress={() => answerHandler(answer.is_right)}>
+    <Text style={styles.answerText}>{answer.text}</Text>
+</TouchableOpacity>)
+  return (
         
         <View>
             <TopMenu/>
@@ -57,18 +65,7 @@ export const TaskType2 = (navigation) => {
       </TouchableOpacity>
             <Text style={styles.question}>Что это за нота?</Text>
             <View style={styles.answers}>
-            <TouchableOpacity style={styles.answer} onPress={() => answerHandler('До', rightAnswer)}>
-                <Text style={styles.answerText}>До</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.answer} onPress={() => answerHandler('Ля', rightAnswer)}>
-                <Text style={styles.answerText}>Ля</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.answer} onPress={() => answerHandler('Си', rightAnswer)}>
-                <Text style={styles.answerText}>Си</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.answer} onPress={() => answerHandler('Ре', rightAnswer)}>
-                <Text style={styles.answerText}>Ре</Text>
-            </TouchableOpacity>
+           {AnswersElements}
             </View>
             <Modal
         animationType="slide"
@@ -90,7 +87,11 @@ export const TaskType2 = (navigation) => {
               onPress={() => {
                setModalVisible(!modalVisible);
                 setAnswerStatus(null);
-                navigation.navigate(TaskType3)
+                navigation.navigate(tasks[index + 1].type == 'one' ? 'TaskType1' : 'TaskType2', {
+                  // levelId: props.id,
+                   tasks: tasks,
+                   index: index + 1
+                  });
               }}
             />
           </View>

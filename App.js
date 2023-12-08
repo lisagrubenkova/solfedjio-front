@@ -21,7 +21,7 @@ const Stack = createStackNavigator();
 
 export default function App() {
   const [isLoading, setIsLoading] = React.useState(true);
-  const [isAuthorized, setIsAuthorized] = React.useState(false);
+  const [isAuthorized, setIsAuthorized] = React.useState(true);
 
   const getIsAuthorized = async () => {
     try {

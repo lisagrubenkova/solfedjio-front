@@ -11,11 +11,12 @@ export const TaskType1 = ({ route, navigation }) => {
     console.log(levelId);
     console.log(tasks);
     console.log(index);
-
-    const rightAnswer = 'До';
+    console.log(tasks[index].attachments[0].path);
+    const path = tasks[index].attachments[0].path;
+    console.log({uri: path})
     
-    const answerHandler = (answer, rightAnswer) => {
-        if (answer === rightAnswer) {
+    const answerHandler = (answer) => {
+        if (answer) {
             setAnswerStatus('correct');
       setModalVisible(true);
     } else {
@@ -23,24 +24,17 @@ export const TaskType1 = ({ route, navigation }) => {
       setModalVisible(true);
     }
     };
+
+    const AnswersElements = tasks[index].answers.map((answer) =>  <TouchableOpacity style={styles.answer} onPress={() => answerHandler(answer.is_right)}>
+    <Text style={styles.answerText}>{answer.text}</Text>
+</TouchableOpacity>)
     return (
         <View>
             <TopMenu/>
-            <Image source={require( './imgs/do.png' )}/>
+            <Image style={{height: 100, width: 100}} source={{ uri: path }}/>
             <Text style={styles.question}>Что это за нота?</Text>
             <View style={styles.answers}>
-            <TouchableOpacity style={styles.answer} onPress={() => answerHandler('До', rightAnswer)}>
-                <Text style={styles.answerText}>До</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.answer} onPress={() => answerHandler('Ре', rightAnswer)}>
-                <Text style={styles.answerText}>Ре</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.answer} onPress={() => answerHandler('Ми', rightAnswer)}>
-                <Text style={styles.answerText}>Ми</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.answer} onPress={() => answerHandler('Фа', rightAnswer)}>
-                <Text style={styles.answerText}>Фа</Text>
-            </TouchableOpacity>
+            {AnswersElements}
             </View>
             <Modal
         animationType="slide"
@@ -62,8 +56,12 @@ export const TaskType1 = ({ route, navigation }) => {
               onPress={() => {
                setModalVisible(!modalVisible);
                 setAnswerStatus(null);
-                navigation.navigate(TaskType2)
-              }}
+                navigation.navigate(tasks[index + 1].type == 'one' ? 'TaskType1' : 'TaskType2', {
+                 // levelId: props.id,
+                  tasks: tasks,
+                  index: index + 1
+                 });
+                }}
             />
           </View>
         </View>

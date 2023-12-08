@@ -42,7 +42,7 @@ export const Level = (props) => {
             {
                 id: 0,
                 text: "string",
-                type: 'two',
+                type: 'one',
                 attachments: [
                   {
                     id: 0,
@@ -132,41 +132,41 @@ export const Level = (props) => {
     {console.log(state.tasks[0].type)}
     return(
         <View>
-        {/* <TouchableOpacity style={[dynamicStyle, dynamicColor]} onPress={() => startLevel(props)}> */}
-        <TouchableOpacity style={[dynamicStyle, dynamicColor]} onPress={() => props.navigation.navigate(state.tasks[0].type == 'one' ? 'TaskType1' : 'TaskType2', {
+        <TouchableOpacity style={[dynamicStyle, dynamicColor]} onPress={() => startLevel(props)}>
+        {/* <TouchableOpacity style={[dynamicStyle, dynamicColor]} onPress={() => props.navigation.navigate(state.tasks[0].type == 'one' ? 'TaskType1' : 'TaskType2', {
             levelId: props.id,
             tasks: state.tasks,
             index: 0
-        })}>
+        })}> */}
         <Text style={styles.buttonText}>{props.id}</Text>
       </TouchableOpacity>
       </View>
     );
 }
 
-// function startLevel(props) {
-//     const requestOptions = {
-//         method: 'GET',
-//         headers: { 
-//           'Content-Type': 'application/json',
-//           Cookie: cookies
-//         }
-//     };
-//     fetch(HOST + 'level/' + props.id, requestOptions)
-//       .then(response => response.json())
-//       .then(json => {
-//         console.log(json);
-//         props.navigation.navigate(tasks[0].type == 'one' ? 'TaskType1' : 'TaskType2', {
-//             levelId: props.id,
-//             tasks: json.result.tasks,
-//             index: 0
-//         });
-//         // levelId: props.id,
-//         // tasks: json.result.tasks,
-//       })
-//       .catch((err) => {
-//         console.log(err.message);});
-// }
+function startLevel(props) {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 
+          'Content-Type': 'application/json',
+          Cookie: cookies
+        }
+    };
+    fetch(HOST + 'level/' + props.id, requestOptions)
+      .then(response => response.json())
+      .then(json => {
+        console.log(json);
+        props.navigation.navigate(json.result.tasks[0].type == 'one' ? 'TaskType1' : 'TaskType2', {
+            levelId: props.id,
+            tasks: json.result.tasks,
+            index: 0
+        });
+        // levelId: props.id,
+        // tasks: json.result.tasks,
+      })
+      .catch((err) => {
+        console.log(err.message);});
+}
 
 const styles = StyleSheet.create({
     red: {

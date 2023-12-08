@@ -4,25 +4,25 @@ import { HOST, cookies, SplashScreen } from "../Const";
 import { StyleSheet, View, Text, ScrollView, TouchableOpacity} from 'react-native';
 
 export const Levels = ({navigation}) => {
-  // const [loading, setLoading] = useState(true);
-  //const [levels, setLevels] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [levels, setLevels] = useState(null);
 
-  // useEffect(async () => {
-  //   try {
-  //     setLoading(true);
-  //     const data = await level_list();
-  //     setLevels(data);
-  //     setLoading(false);
-  //   } catch (error) {
-  //     setLoading(false);
-  //     console.log(error);
-  //   }
-  // }, []);
+  useEffect(async () => {
+    try {
+      setLoading(true);
+      const data = await level_list();
+      setLevels(data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  }, []);
 
-  // if (loading) {
-  //   return <SplashScreen />;
-  // }
-  levels = [{"id": 1, "title": "Level1"}, {"id": 2, "title": "lelev22"}, {"id": 3, "title": "string"}, {"id": 4, "title": "new"}, {"id": 5, "title": "old"}, {"id": 6, "title": "xcvx"}, {"id": 7, "title": "opdof"}, {"id": 8, "title": "3432"}, {"id": 9, "title": "fgd"}]
+  if (loading) {
+    return <SplashScreen />;
+  }
+  // levels = [{"id": 1, "title": "Level1"}, {"id": 2, "title": "lelev22"}, {"id": 3, "title": "string"}, {"id": 4, "title": "new"}, {"id": 5, "title": "old"}, {"id": 6, "title": "xcvx"}, {"id": 7, "title": "opdof"}, {"id": 8, "title": "3432"}, {"id": 9, "title": "fgd"}]
   const LevelsElements = levels.map((level) => 
   <Level key={level.id} id={level.id} navigation={navigation}/>)
 

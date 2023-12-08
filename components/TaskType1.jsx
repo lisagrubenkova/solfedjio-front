@@ -3,17 +3,17 @@ import { StyleSheet, Modal, Button, Alert, View, Text, TouchableOpacity, Image} 
 import { TopMenu } from './TopMenu';
 import { useState } from 'react';
 import { TaskType2 } from './TaskType2';
+
+const imageMap = new Map();
+imageMap.set("level1_task1", require('./imgs/do.png'));
+
 export const TaskType1 = ({ route, navigation }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [answerStatus, setAnswerStatus] = useState(null);
 
     const { levelId, tasks, index } = route.params;
-    console.log(levelId);
-    console.log(tasks);
-    console.log(index);
-    console.log(tasks[index].attachments[0].path);
+    console.log(tasks[0]);
     const path = tasks[index].attachments[0].path;
-    console.log({uri: path})
     
     const answerHandler = (answer) => {
         if (answer) {
@@ -31,8 +31,9 @@ export const TaskType1 = ({ route, navigation }) => {
     return (
         <View>
             <TopMenu/>
-            <Image style={{height: 100, width: 100}} source={{ uri: path }}/>
-            <Text style={styles.question}>Что это за нота?</Text>
+            {/* <Image style={{height: 100, width: 100}} source={{uri: 'assets:/do.png'}}/> */}
+            <Image source={imageMap.get(path)} />
+            <Text style={styles.question}>{tasks[index].text}</Text>
             <View style={styles.answers}>
             {AnswersElements}
             </View>

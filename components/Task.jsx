@@ -6,10 +6,25 @@ import { Audio } from 'expo-av';
 
 
 const imageMap = new Map();
-imageMap.set("level1_task1", require('./imgs/do.png'));
+imageMap.set("do", require('./imgs/notes/do.png'));
+imageMap.set("re", require('./imgs/notes/re.png'));
+imageMap.set("mi", require('./imgs/notes/mi.png'));
+imageMap.set("fa", require('./imgs/notes/fa.png'));
+imageMap.set("sol", require('./imgsnotes//sol.png'));
+imageMap.set("lya", require('./imgsnotes//lya.png'));
+imageMap.set("si", require('./imgs/notes/si.png'));
+
+
 
 const soundMap = new Map();
 soundMap.set('level1_task2', require('./sounds/A4.mp3'));
+soundMap.set('do', require('./sounds/C4.mp3'));
+soundMap.set('re', require('./sounds/D4.mp3'));
+soundMap.set('mi', require('./sounds/E4.mp3'));
+soundMap.set('fa', require('./sounds/F4.mp3'));
+soundMap.set('sol', require('./sounds/G4.mp3'));
+soundMap.set('lya', require('./sounds/A4.mp3'));
+soundMap.set('si', require('./sounds/B4.mp3'));
 
 export const Task = ({ route, navigation }) => {
     const [modalVisible, setModalVisible] = useState(false);

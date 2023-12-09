@@ -4,6 +4,41 @@ import { TopMenu } from './TopMenu';
 import { useState } from 'react';
 import { Audio } from 'expo-av';
 
+export default class ActiveLevel {
+  levelId;
+  tasks;
+  index;
+
+  constructor(levelId, tasks, index) {
+    this.levelId=levelId;
+    this.tasks=tasks;
+    this.index=index;
+  }
+
+  getCurrentTask() {
+    return this.tasks[this.index]
+  }
+
+  getCurrentTaskAttachment() {
+    return this.getCurrentTask().attachments[0].path
+  }
+
+  getTaskType() {
+    return this.typeMap.get(this.getCurrentTask().type);
+  }
+
+  isLastLevel() {
+    return this.index == this.tasks.length - 1;
+  }
+
+  nextTask() {
+    this.index = this.index + 1;
+  }
+
+  getIndex() {
+    return this.index;
+  }
+}
 
 const imageMap = new Map();
 imageMap.set("do", require('./imgs/notes/do.png'));
@@ -13,7 +48,7 @@ imageMap.set("fa", require('./imgs/notes/fa.png'));
 imageMap.set("sol", require('./imgs/notes/sol.png'));
 imageMap.set("lya", require('./imgs/notes/lya.png'));
 imageMap.set("si", require('./imgs/notes/si.png'));
-
+imageMap.set("bas", require('./imgs/notes/bas.png'));
 
 
 const soundMap = new Map();
@@ -27,29 +62,24 @@ soundMap.set('lya', require('./sounds/A4.mp3'));
 soundMap.set('si', require('./sounds/B4.mp3'));
 
 export const Task = ({ route, navigation }) => {
-    const [modalVisible, setModalVisible] = useState(false);
-    const [answerStatus, setAnswerStatus] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [answerStatus, setAnswerStatus] = useState(null);
+  const { activeLevel } = route.params;
+  const answerHandler = (answer) => {
+    if (answer) {
+    setAnswerStatus('correct');
+    setModalVisible(true);
+  } else {
+    setAnswerStatus('incorrect');
+    setModalVisible(true);
+  }};
 
-    const { levelId, tasks, index } = route.params;
-    console.log(tasks[0]);
-    const path = tasks[index].attachments[0].path;
-    
-    const answerHandler = (answer) => {
-        if (answer) {
-            setAnswerStatus('correct');
-      setModalVisible(true);
-    } else {
-      setAnswerStatus('incorrect');
-      setModalVisible(true);
-    }
-    };
-
-    const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [sound, setSound] = useState();
 
   const playSound = async () => {
     const { sound } = await Audio.Sound.createAsync(
-      soundMap.get(path)
+      soundMap.get(activeLevel.getCurrentTaskAttachment())
     );
     setSound(sound);
 
@@ -72,18 +102,18 @@ export const Task = ({ route, navigation }) => {
     }
   };
 
-
-    const AnswersElements = tasks[index].answers.map((answer) =>  <TouchableOpacity style={styles.answer} onPress={() => answerHandler(answer.is_right)}>
+  const AnswersElements = activeLevel.getCurrentTask()
+    .answers.map((answer) =>  <TouchableOpacity style={styles.answer} onPress={() => answerHandler(answer.is_right)}>
     <Text style={styles.answerText}>{answer.text}</Text>
 </TouchableOpacity>)
     return (
         <View>
             <TopMenu/>
             {
-                (tasks[index].type === 'one') ? (
+                (activeLevel.getCurrentTask().type === 'one') ? (
                   <View>
-                    <Image source={imageMap.get(path)} />
-                    <Text style={styles.question}>{tasks[index].text}</Text>
+                    <Image source={imageMap.get(activeLevel.getCurrentTaskAttachment())} />
+                    <Text style={styles.question}>{activeLevel.getCurrentTask().text}</Text>
                   </View>
                 ) : (
                   <View>
@@ -93,7 +123,7 @@ export const Task = ({ route, navigation }) => {
                      style={styles.play}
                      />
                      </TouchableOpacity>
-                     <Text style={styles.question}>{tasks[index].text}</Text>
+                     <Text style={styles.question}>{activeLevel.getCurrentTask().text}</Text>
                   </View>
                 )
             }
@@ -112,17 +142,26 @@ export const Task = ({ route, navigation }) => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>
-            {answerStatus === 'correct' ? 'Правильный ответ!' : tasks[index].explanation}
+            {answerStatus === 'correct' ? 'Правильный ответ!' : "Не правильный ответ"}
             </Text>
             <TouchableOpacity
             style={styles.btn}
               onPress={() => {
-               setModalVisible(!modalVisible);
+                setModalVisible(!modalVisible);
                 setAnswerStatus(null);
-                  navigation.navigate(index == 2 ? 'LevelComplete' : 'Task', {
-                  tasks: tasks,
-                  index: index + 1
-                 });
+                console.log("Current index: " + activeLevel.getIndex());
+                if (activeLevel.isLastLevel()) {
+                  console.log("GO TO COMPLETE");
+                  navigation.navigate('LevelComplete', {
+                    activeLevel: activeLevel
+                  });
+                } else {
+                  console.log("GO TO NEXT LEVEL");
+                  activeLevel.nextTask();
+                  navigation.navigate('Task', {
+                    activeLevel: activeLevel
+                  });
+                }
                 }}>
                   <Text  style={styles.btntext}>Следующее задание</Text>
                 </TouchableOpacity>

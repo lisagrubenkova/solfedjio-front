@@ -44,7 +44,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {isAuthorized ? (
-          <Stack.Screen name="InitLevels" component={Start} />
+          <Stack.Screen name="InitLevels" component={Main} />
         ) : (
           <Stack.Screen name="InitStart" component={Start} />
         )}

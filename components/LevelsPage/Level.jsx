@@ -1,5 +1,7 @@
 import React from "react";
 import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
+import { HOST, cookies } from "../Const";
+import ActiveLevel from "../Task";
 
 export const Level = (props) => {
     const state = {
@@ -154,14 +156,10 @@ function startLevel(props) {
     fetch(HOST + 'level/' + props.id, requestOptions)
       .then(response => response.json())
       .then(json => {
-        console.log(json);
-        props.navigation.navigate(json.result.tasks[0].type == 'one' ? 'TaskType1' : 'TaskType2', {
-            levelId: props.id,
-            tasks: json.result.tasks,
-            index: 0
+        const activeLevel = new ActiveLevel(props.id, json.result.tasks, 0);
+        props.navigation.navigate('Task', {
+            activeLevel: activeLevel
         });
-        // levelId: props.id,
-        // tasks: json.result.tasks,
       })
       .catch((err) => {
         console.log(err.message);});

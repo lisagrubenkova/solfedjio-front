@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 
 export const TopMenu = () => {
     return (

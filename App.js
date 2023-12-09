@@ -1,7 +1,7 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
+import { StyleSheet } from "react-native";
 import { Reg } from "./components/Reg";
 import { Auth, setAndCheckCookies } from "./components/Auth";
 import { Start } from "./components/Start";
@@ -12,10 +12,9 @@ import { User } from "./components/User";
 import { Theory1 } from "./components/TheoryPage/Theory1";
 import { Level } from "./components/LevelsPage/Level";
 import { Main } from "./components/Main";
-import { TaskType1 } from "./components/TaskType1";
-import { TaskType2 } from "./components/TaskType2";
-import { TaskType3 } from "./components/TaskType3";
+import { Task } from "./components/Task";
 import { SplashScreen } from "./components/Const";
+import { LevelComplete } from "./components/LevelsPage/LevelComplete";
 
 const Stack = createStackNavigator();
 
@@ -60,9 +59,8 @@ export default function App() {
         <Stack.Screen name="Theory1" component={Theory1} />
         <Stack.Screen name="Level" component={Level} />
         <Stack.Screen name="Main" component={Main} />
-        <Stack.Screen name="TaskType1" component={TaskType1} />
-        <Stack.Screen name="TaskType2" component={TaskType2} />
-        <Stack.Screen name="TaskType3" component={TaskType3} />
+        <Stack.Screen name="Task" component={Task} />
+        <Stack.Screen name="LevelComplete" component={LevelComplete} />
       </Stack.Navigator>
     </NavigationContainer>
   );

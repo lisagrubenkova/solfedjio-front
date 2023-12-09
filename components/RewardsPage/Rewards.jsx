@@ -17,32 +17,32 @@ export const Rewards = () => {
             {
                 id: 3,
                 img: require('./Trophy3.png'),
-                text: 'За пройденный второй уровень'
+                text: 'За пройденный третий уровень'
             },
             {
                 id: 4,
                 img: require('./Trophy4.png'),
-                text: 'За пройденный второй уровень'
+                text: 'За пройденный четвертый уровень'
             },
             {
                 id: 5,
                 img: require('./Ribbon1.png'),
-                text: 'За пройденный первый уровень'
+                text: 'Ты умничка'
             },
             {
                 id: 6,
                 img: require('./Ribbon2.png'),
-                text: 'За пройденный второй уровень'
+                text: 'Ангеличка лучшая'
             },
             {
                 id: 7,
                 img: require('./Ribbon3.png'),
-                text: 'За пройденный второй уровень'
+                text: 'За что-нибудь еще хорошее'
             },
             {
                 id: 8,
                 img: require('./Ribbon4.png'),
-                text: 'За пройденный второй уровень'
+                text: 'За то, что ты есть'
             }
         ]
     }

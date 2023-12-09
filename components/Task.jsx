@@ -1,9 +1,17 @@
 import React from 'react';
-import { StyleSheet, Modal, Button, Alert, View, Text, TouchableOpacity, Image} from 'react-native';
+import { StyleSheet, Modal, View, Text, TouchableOpacity, Image} from 'react-native';
 import { TopMenu } from './TopMenu';
 import { useState } from 'react';
-import { TaskType2 } from './TaskType2';
-export const TaskType1 = ({ route, navigation }) => {
+import { Audio } from 'expo-av';
+
+
+const imageMap = new Map();
+imageMap.set("level1_task1", require('./imgs/do.png'));
+
+const soundMap = new Map();
+soundMap.set('level1_task2', require('./sounds/A4.mp3'));
+
+export const Task = ({ route, navigation }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [answerStatus, setAnswerStatus] = useState(null);
 
@@ -25,14 +33,59 @@ export const TaskType1 = ({ route, navigation }) => {
     }
     };
 
+    const [isPlaying, setIsPlaying] = useState(false);
+  const [sound, setSound] = useState();
+
+  const playSound = async () => {
+    const { sound } = await Audio.Sound.createAsync(
+      soundMap.get(path)
+    );
+    setSound(sound);
+
+    sound.setOnPlaybackStatusUpdate((status) => {
+      if (status.didJustFinish) {
+        setIsPlaying(false);
+      }
+    });
+
+    await sound.playAsync();
+    setIsPlaying(true);
+  };
+
+  const togglePlayback = async () => {
+    if (isPlaying) {
+      await sound.pauseAsync();
+      setIsPlaying(false);
+    } else {
+      await playSound();
+    }
+  };
+
+
     const AnswersElements = tasks[index].answers.map((answer) =>  <TouchableOpacity style={styles.answer} onPress={() => answerHandler(answer.is_right)}>
     <Text style={styles.answerText}>{answer.text}</Text>
 </TouchableOpacity>)
     return (
         <View>
             <TopMenu/>
-            <Image style={{height: 100, width: 100}} source={{ uri: path }}/>
-            <Text style={styles.question}>Что это за нота?</Text>
+            {
+                (tasks[index].type === 'one') ? (
+                  <View>
+                    <Image source={imageMap.get(path)} />
+                    <Text style={styles.question}>{tasks[index].text}</Text>
+                  </View>
+                ) : (
+                  <View>
+                    <TouchableOpacity onPress={togglePlayback}>
+                     <Image 
+                     source={require('./imgs/play.png')} 
+                     style={styles.play}
+                     />
+                     </TouchableOpacity>
+                     <Text style={styles.question}>{tasks[index].text}</Text>
+                  </View>
+                )
+            }
             <View style={styles.answers}>
             {AnswersElements}
             </View>
@@ -48,21 +101,20 @@ export const TaskType1 = ({ route, navigation }) => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>
-            {answerStatus === 'correct' ? 'Правильный ответ!' : 'Неправильный ответ!'}
+            {answerStatus === 'correct' ? 'Правильный ответ!' : tasks[index].explanation}
             </Text>
-            <Button
+            <TouchableOpacity
             style={styles.btn}
-              title="Следующее задание"
               onPress={() => {
                setModalVisible(!modalVisible);
                 setAnswerStatus(null);
-                navigation.navigate(tasks[index + 1].type == 'one' ? 'TaskType1' : 'TaskType2', {
-                 // levelId: props.id,
+                  navigation.navigate(index == 2 ? 'LevelComplete' : 'Task', {
                   tasks: tasks,
                   index: index + 1
                  });
-                }}
-            />
+                }}>
+                  <Text  style={styles.btntext}>Следующее задание</Text>
+                </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -72,9 +124,19 @@ export const TaskType1 = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
     btn: {
-        color: '#D9D9D9',
+        backgroundColor: '#D9D9D9',
         borderRadius: 30,
+        height: 55,
+        alignSelf: 'center',
         
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 50
+    },
+    btntext: {
+      fontSize: 20,
+      paddingLeft: 15,
+      paddingRight: 15
     },
     modalContainer: {
         flex: 1,
@@ -95,16 +157,17 @@ const styles = StyleSheet.create({
       },
     answers: {
         flexDirection: "row",
-        flexWrap: "wrap"
+        flexWrap: "wrap",
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     answer: {
      backgroundColor: '#A19B9B',
-     width: 145,
+     width: '90%',
      height: 55,
      borderRadius:100, 
      justifyContent: 'center',
-     marginLeft: 45,
-     marginTop: 20
+     marginTop: 10
     },
     cAnswer: {
         backgroundColor: 'green',
@@ -113,15 +176,23 @@ const styles = StyleSheet.create({
         backgroundColor: 'red',
       },
     answerText: {
-        fontSize: 40,
+        fontSize: 25,
         alignSelf: 'center',
     },
     container: {
       flex: 1,
     },
     question: {
-      fontSize: 42,
-      alignSelf: "center"
+      fontSize: 27,
+      alignSelf: "center",
+      marginTop: 20
     },
+    play: {
+      width: 100,
+      height: 100,
+      alignSelf: 'center',
+      marginTop: 150,
+      marginBottom: 100
+    }
   });
   

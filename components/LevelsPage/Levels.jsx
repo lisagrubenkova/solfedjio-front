@@ -1,5 +1,5 @@
 import { Level } from './Level';
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { HOST, cookies, SplashScreen } from "../Const";
 import { StyleSheet, View, Text, ScrollView, TouchableOpacity} from 'react-native';
 

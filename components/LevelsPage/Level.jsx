@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
-import { HOST, cookies, SplashScreen } from "../Const";
 
 export const Level = (props) => {
     const state = {
@@ -12,32 +11,33 @@ export const Level = (props) => {
               attachments: [
                 {
                   id: 0,
-                  path: './LevelsPage/do.png',
+                  path: 'level1_task1',
                   type: 'photo'
                 }
               ],
               answers: [
                 {
                   id: 0,
-                  text: "До",
+                  text: "Басовый",
                   is_right: true
                 },
                 {
                     id: 1,
-                    text: "Ре",
+                    text: "Скрипичный",
                     is_right: false
                   },
                   {
                     id: 2,
-                    text: "Ми",
+                    text: "Альтовый",
                     is_right: false
                   },
                   {
                     id: 3,
-                    text: "Фа",
+                    text: "Теноровый",
                     is_right: false
                   }
-              ]
+              ],
+              explanation: 'Нота до пишется на первой добавочной линейке'
             },
             {
                 id: 0,
@@ -46,29 +46,29 @@ export const Level = (props) => {
                 attachments: [
                   {
                     id: 0,
-                    path: './LevelsPage/do.png',
+                    path: 'level1_task2',
                     type: 'photo'
                   }
                 ],
                 answers: [
                   {
                     id: 0,
-                    text: "Ля",
+                    text: "Нотный стан",
                     is_right: true
                   },
                   {
                       id: 1,
-                      text: "Фа",
+                      text: "Нотоносец",
                       is_right: false
                     },
                     {
                       id: 2,
-                      text: "Си",
+                      text: "Нотный лист",
                       is_right: false
                     },
                     {
                       id: 3,
-                      text: "Ре",
+                      text: "Нотная линейка",
                       is_right: false
                     }
                 ]
@@ -129,15 +129,14 @@ export const Level = (props) => {
           dynamicColor = styles.blue;
           break;
       } 
-    {console.log(state.tasks[0].type)}
     return(
-        <View>
+        <View style={styles.container}>
         {/* <TouchableOpacity style={[dynamicStyle, dynamicColor]} onPress={() => startLevel(props)}> */}
-        <TouchableOpacity style={[dynamicStyle, dynamicColor]} onPress={() => props.navigation.navigate(state.tasks[0].type == 'one' ? 'TaskType1' : 'TaskType2', {
+        <TouchableOpacity style={[dynamicStyle, dynamicColor]} onPress={() => props.navigation.navigate('Task', {
             levelId: props.id,
             tasks: state.tasks,
             index: 0
-        })}>
+        })}> 
         <Text style={styles.buttonText}>{props.id}</Text>
       </TouchableOpacity>
       </View>
@@ -156,7 +155,7 @@ export const Level = (props) => {
 //       .then(response => response.json())
 //       .then(json => {
 //         console.log(json);
-//         props.navigation.navigate(tasks[0].type == 'one' ? 'TaskType1' : 'TaskType2', {
+//         props.navigation.navigate(json.result.tasks[0].type == 'one' ? 'TaskType1' : 'TaskType2', {
 //             levelId: props.id,
 //             tasks: json.result.tasks,
 //             index: 0
@@ -169,6 +168,10 @@ export const Level = (props) => {
 // }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        width: '100%'
+    },
     red: {
         backgroundColor: '#FE7579',
     },
@@ -197,8 +200,9 @@ const styles = StyleSheet.create({
         height: 75,
         borderRadius:20, 
         justifyContent: 'center',
-        marginLeft: 265,
-        marginTop: 20
+        marginRight: 45,
+        marginTop: 20,
+        alignSelf: 'flex-end'
     },
     buttonText: {
         fontSize: 50,

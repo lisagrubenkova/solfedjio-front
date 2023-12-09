@@ -42,7 +42,7 @@ export const Level = (props) => {
             {
                 id: 0,
                 text: "string",
-                type: 'two',
+                type: 'one',
                 attachments: [
                   {
                     id: 0,

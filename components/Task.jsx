@@ -16,12 +16,8 @@ export const Task = ({ route, navigation }) => {
     const [answerStatus, setAnswerStatus] = useState(null);
 
     const { levelId, tasks, index } = route.params;
-    console.log(levelId);
-    console.log(tasks);
-    console.log(index);
-    console.log(tasks[index].attachments[0].path);
+    console.log(tasks[0]);
     const path = tasks[index].attachments[0].path;
-    console.log({uri: path})
     
     const answerHandler = (answer) => {
         if (answer) {

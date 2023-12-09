@@ -10,8 +10,8 @@ imageMap.set("do", require('./imgs/notes/do.png'));
 imageMap.set("re", require('./imgs/notes/re.png'));
 imageMap.set("mi", require('./imgs/notes/mi.png'));
 imageMap.set("fa", require('./imgs/notes/fa.png'));
-imageMap.set("sol", require('./imgsnotes//sol.png'));
-imageMap.set("lya", require('./imgsnotes//lya.png'));
+imageMap.set("sol", require('./imgs/notes/sol.png'));
+imageMap.set("lya", require('./imgs/notes/lya.png'));
 imageMap.set("si", require('./imgs/notes/si.png'));
 
 

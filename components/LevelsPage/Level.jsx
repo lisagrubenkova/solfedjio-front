@@ -11,7 +11,7 @@ export const Level = (props) => {
               attachments: [
                 {
                   id: 0,
-                  path: 'level1_task1',
+                  path: 'do',
                   type: 'photo'
                 }
               ],
@@ -42,11 +42,11 @@ export const Level = (props) => {
             {
                 id: 0,
                 text: "string",
-                type: 'one',
+                type: 'two',
                 attachments: [
                   {
                     id: 0,
-                    path: 'level1_task2',
+                    path: 'do',
                     type: 'photo'
                   }
                 ],
@@ -131,41 +131,41 @@ export const Level = (props) => {
       } 
     return(
         <View style={styles.container}>
-        {/* <TouchableOpacity style={[dynamicStyle, dynamicColor]} onPress={() => startLevel(props)}> */}
-        <TouchableOpacity style={[dynamicStyle, dynamicColor]} onPress={() => props.navigation.navigate('Task', {
+        <TouchableOpacity style={[dynamicStyle, dynamicColor]} onPress={() => startLevel(props)}>
+        {/* <TouchableOpacity style={[dynamicStyle, dynamicColor]} onPress={() => props.navigation.navigate('Task', {
             levelId: props.id,
             tasks: state.tasks,
             index: 0
-        })}> 
+        })}>  */}
         <Text style={styles.buttonText}>{props.id}</Text>
       </TouchableOpacity>
       </View>
     );
 }
 
-// function startLevel(props) {
-//     const requestOptions = {
-//         method: 'GET',
-//         headers: { 
-//           'Content-Type': 'application/json',
-//           Cookie: cookies
-//         }
-//     };
-//     fetch(HOST + 'level/' + props.id, requestOptions)
-//       .then(response => response.json())
-//       .then(json => {
-//         console.log(json);
-//         props.navigation.navigate(json.result.tasks[0].type == 'one' ? 'TaskType1' : 'TaskType2', {
-//             levelId: props.id,
-//             tasks: json.result.tasks,
-//             index: 0
-//         });
-//         // levelId: props.id,
-//         // tasks: json.result.tasks,
-//       })
-//       .catch((err) => {
-//         console.log(err.message);});
-// }
+function startLevel(props) {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 
+          'Content-Type': 'application/json',
+          Cookie: cookies
+        }
+    };
+    fetch(HOST + 'level/' + props.id, requestOptions)
+      .then(response => response.json())
+      .then(json => {
+        console.log(json);
+        props.navigation.navigate(json.result.tasks[0].type == 'one' ? 'TaskType1' : 'TaskType2', {
+            levelId: props.id,
+            tasks: json.result.tasks,
+            index: 0
+        });
+        // levelId: props.id,
+        // tasks: json.result.tasks,
+      })
+      .catch((err) => {
+        console.log(err.message);});
+}
 
 const styles = StyleSheet.create({
     container: {

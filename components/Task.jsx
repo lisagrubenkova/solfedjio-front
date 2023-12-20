@@ -32,6 +32,7 @@ export default class ActiveLevel {
   }
 
   nextTask() {
+    console.log(this.getCurrentTask());
     this.index = this.index + 1;
   }
 
@@ -49,7 +50,16 @@ imageMap.set("sol", require('./imgs/notes/sol.png'));
 imageMap.set("lya", require('./imgs/notes/lya.png'));
 imageMap.set("si", require('./imgs/notes/si.png'));
 imageMap.set("bas", require('./imgs/notes/bas.png'));
-
+imageMap.set("notonosec", require('./imgs/notonosec.png'));
+imageMap.set("trez", require('./imgs/trez.png'));
+imageMap.set("alt", require('./imgs/alt.png'));
+imageMap.set("12", require('./imgs/12.png'));
+imageMap.set("13", require('./imgs/13.png'));
+imageMap.set("15", require('./imgs/15.png'));
+imageMap.set("pherm", require('./imgs/pherm.png'));
+imageMap.set("tenor", require('./imgs/tenor.png'));
+imageMap.set("takt", require('./imgs/takt.png'));
+imageMap.set("razmer", require('./imgs/razmer.png'));
 
 const soundMap = new Map();
 soundMap.set('level1_task2', require('./sounds/A4.mp3'));
@@ -208,7 +218,7 @@ const styles = StyleSheet.create({
     answers: {
         flexDirection: "row",
         flexWrap: "wrap",
-        alignItems: 'center',
+        alignItems: 'flex-end',
         justifyContent: 'center'
     },
     answer: {

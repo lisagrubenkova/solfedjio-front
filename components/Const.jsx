@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, Text, ActivityIndicator,} from 'react-native';
 import PropTypes from 'prop-types';
 
-export const HOST = 'http://192.168.0.103:8000/';
+export const HOST = 'http://192.168.0.105:8000/';
 // export const HOST = 'http://127.0.0.1:8000/';
 export var cookies;
 

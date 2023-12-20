@@ -9,11 +9,12 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^1.19.6",
+    "@react-native-async-storage/async-storage": "^1.21.0",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/stack": "^6.3.20",
     "axios": "^1.5.1",
     "expo": "~49.0.15",
+    "expo-av": "~13.4.1",
     "expo-status-bar": "~1.6.0",
     "prop-types": "^15.8.1",
     "react": "18.2.0",
@@ -21,8 +22,7 @@
     "react-native-linear-gradient": "^2.8.3",
     "react-native-sound": "^0.11.2",
     "styled-components": "^6.1.0",
-    "typed-async-storage": "^3.1.2",
-    "expo-av": "~13.4.1"
+    "typed-async-storage": "^3.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

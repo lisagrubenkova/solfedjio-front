@@ -25,7 +25,7 @@ export const Levels = ({navigation}) => {
   }
   //  levels = [{"id": 1, "title": "Level1"}, {"id": 2, "title": "lelev22"}, {"id": 3, "title": "string"}, {"id": 4, "title": "new"}, {"id": 5, "title": "old"}, {"id": 6, "title": "xcvx"}, {"id": 7, "title": "opdof"}, {"id": 8, "title": "3432"}, {"id": 9, "title": "fgd"}]
   const LevelsElements = levels.map((level) => 
-  <Level key={level.id} id={level.id} navigation={navigation}/>)
+  <Level key={level.id} id={level.id} is_finished={level.is_finished} navigation={navigation}/>)
 
   return (
     <View style={styles.container}> 

@@ -1,7 +1,11 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { HOST, cookies, SplashScreen } from "../Const";
 
-export const LevelComplete = ({navigation}) => {
+export const LevelComplete = ({route, navigation}) => {
+  const { completedLevel } = route.params;
+  postStatistics(completedLevel.getAllAnswersCount(), completedLevel.getRightAnswersCount(), completedLevel.getLevelId());
+
   return (
     <View style={styles.container}>
       <Text style={styles.levelText}>Уровень пройден!!!</Text>
@@ -11,6 +15,29 @@ export const LevelComplete = ({navigation}) => {
     </View>
   );
 };
+
+async function postStatistics(all_answers_count, right_answers_count, level_id) {
+  const requestOptions = {
+    method: 'POST',
+    headers: { 
+      'Content-Type': 'application/json',
+      Cookie: cookies
+    },
+    body: JSON.stringify({
+      all_answers_count: all_answers_count,
+      right_answers_count: right_answers_count,
+      level_id: level_id
+    })
+  };
+  const levels = await fetch(HOST + 'stat/create', requestOptions)
+  .then(response => response.json())
+  .then(json => json.result)
+  .catch((err) => {
+    console.log(err.message);
+  });
+
+  return levels;
+}
 
 const styles = StyleSheet.create({
   container: {

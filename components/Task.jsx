@@ -8,11 +8,13 @@ export default class ActiveLevel {
   levelId;
   tasks;
   index;
+  rightAnswersCount;
 
   constructor(levelId, tasks, index) {
     this.levelId=levelId;
     this.tasks=tasks;
     this.index=index;
+    this.rightAnswersCount = 0;
   }
 
   getCurrentTask() {
@@ -38,6 +40,22 @@ export default class ActiveLevel {
 
   getIndex() {
     return this.index;
+  }
+
+  incrementRightAnswersCount() {
+    this.rightAnswersCount++;
+  }
+
+  getRightAnswersCount() {
+    return this.rightAnswersCount;
+  }
+
+  getAllAnswersCount() {
+    return this.tasks.length;
+  }
+
+  getLevelId() {
+    return this.levelId;
   }
 }
 
@@ -74,12 +92,16 @@ soundMap.set('si', require('./sounds/B4.mp3'));
 export const Task = ({ route, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [answerStatus, setAnswerStatus] = useState(null);
+  const [answerInfo, setAnswerInfo] = useState(null);
+
   const { activeLevel } = route.params;
-  const answerHandler = (answer) => {
+  const answerHandler = (answer, description) => {
     if (answer) {
+    activeLevel.incrementRightAnswersCount();
     setAnswerStatus('correct');
     setModalVisible(true);
   } else {
+    setAnswerInfo(description);
     setAnswerStatus('incorrect');
     setModalVisible(true);
   }};
@@ -112,8 +134,9 @@ export const Task = ({ route, navigation }) => {
     }
   };
 
-  const AnswersElements = activeLevel.getCurrentTask()
-    .answers.map((answer) =>  <TouchableOpacity style={styles.answer} onPress={() => answerHandler(answer.is_right)}>
+  const currentTask = activeLevel.getCurrentTask();
+  const AnswersElements = currentTask
+  .answers.map((answer) =>  <TouchableOpacity style={styles.answer} onPress={() => answerHandler(answer.is_right, currentTask.description)}>
     <Text style={styles.answerText}>{answer.text}</Text>
 </TouchableOpacity>)
     return (
@@ -160,10 +183,11 @@ export const Task = ({ route, navigation }) => {
                 setModalVisible(!modalVisible);
                 setAnswerStatus(null);
                 console.log("Current index: " + activeLevel.getIndex());
+                console.log("Current right answers: " + activeLevel.getRightAnswersCount());
                 if (activeLevel.isLastLevel()) {
                   console.log("GO TO COMPLETE");
                   navigation.navigate('LevelComplete', {
-                    activeLevel: activeLevel
+                    completedLevel: activeLevel
                   });
                 } else {
                   console.log("GO TO NEXT LEVEL");

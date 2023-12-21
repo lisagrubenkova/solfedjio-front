@@ -15,10 +15,13 @@ import { Main } from "./components/Main";
 import { Task } from "./components/Task";
 import { SplashScreen } from "./components/Const";
 import { LevelComplete } from "./components/LevelsPage/LevelComplete";
+import { LogBox } from 'react-native';
 
 const Stack = createStackNavigator();
 
-export default function App() {
+export default function App() { 
+  LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+  LogBox.ignoreAllLogs();//Ignore all log notifications
   const [isLoading, setIsLoading] = React.useState(true);
   const [isAuthorized, setIsAuthorized] = React.useState(false);
 

@@ -111,10 +111,14 @@ export const Level = (props) => {
               },
           ]
     }
+    const isFinished = props.is_finished;
     const isEven = props.id % 2 === 0;
     const dynamicStyle = isEven ? styles.levelRight : styles.level;
     let dynamicColor;
-    switch (props.id % 5) {
+    if (isFinished) {
+      dynamicColor = styles.grey;
+    } else {
+      switch (props.id % 5) {
         case 1:
           dynamicColor = styles.red;
           break;
@@ -130,7 +134,9 @@ export const Level = (props) => {
         default:
           dynamicColor = styles.blue;
           break;
-      } 
+      }
+    }
+     
     return(
         <View style={styles.container}>
         <TouchableOpacity style={[dynamicStyle, dynamicColor]} onPress={() => startLevel(props)}>
@@ -184,6 +190,9 @@ const styles = StyleSheet.create({
     },
     blue: {
         backgroundColor: '#64D4EF'
+    },
+    grey: {
+      backgroundColor: '#808080',
     },
     level: {
      width: 80,

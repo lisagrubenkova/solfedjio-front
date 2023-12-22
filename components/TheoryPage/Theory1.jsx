@@ -1,6 +1,5 @@
 import React from 'react';
 import { TopMenu } from '../TopMenu';
-import { Menu } from '../Menu';
 import { StyleSheet, View, Text, ScrollView, Image} from 'react-native';
 export const Theory1 = () => {
     return (
@@ -13,7 +12,6 @@ export const Theory1 = () => {
                 </Text>
                 <Image style={styles.img} source={require('./gamma.webp')}></Image>
             </ScrollView>
-            <Menu/>
         </View>
     )
 }

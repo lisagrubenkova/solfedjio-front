@@ -3,10 +3,11 @@ import { TouchableOpacity, View, StyleSheet, Image, Modal, TouchableWithoutFeedb
 import { useState } from 'react';
 
 export const Reward = (props) => {
+  const dynamicStyle = (props.rec) ? styles.rewardY : styles.rewardN
   const [modalVisible, setModalVisible] = useState(false);
     return(
         <View>
-         <TouchableOpacity style={styles.reward} onPress={() => setModalVisible(true)}>
+         <TouchableOpacity style={dynamicStyle} onPress={() => setModalVisible(true)}>
         <Image style={styles.img} source={props.img}/>
     </TouchableOpacity>
     <Modal
@@ -18,8 +19,8 @@ export const Reward = (props) => {
          <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Image style={styles.modalImg} source={(props.img)} />
-            <Text style={styles.modalText}>{props.text}</Text>
+            {props.rec ? (<Image style={styles.modalImg} source={(props.img)} />) : <View/>}
+            <Text style={styles.modalText}>{props.rec ? props.text : 'Проходи уровни, чтобы получить больше наград!'}</Text>
           </View>
         </View>
         </TouchableWithoutFeedback>
@@ -29,7 +30,7 @@ export const Reward = (props) => {
 }
 
 const styles = StyleSheet.create({
-  reward: {
+  rewardY: {
     width: 100,
     height: 100,
     backgroundColor: '#A19B9B',
@@ -37,6 +38,17 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: 'center'
   },
+
+  rewardN: {
+    width: 100,
+    height: 100,
+    backgroundColor: '#505050',
+    margin: 10,
+    borderRadius: 20,
+    justifyContent: 'center'
+  },
+
+
   centeredView: {
     flex: 1,
     justifyContent: 'center',
@@ -57,6 +69,7 @@ const styles = StyleSheet.create({
   modalText: {
     marginTop: 10,
     fontSize: 16,
+    textAlign: 'center'
   },
   img: {
     alignSelf: 'center',

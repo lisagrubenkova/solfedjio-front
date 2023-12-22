@@ -140,12 +140,12 @@ export const Task = ({ route, navigation }) => {
     <Text style={styles.answerText}>{answer.text}</Text>
 </TouchableOpacity>)
     return (
-        <View>
+        <View styles={styles.container}>
             <TopMenu/>
             {
                 (activeLevel.getCurrentTask().type === 'one') ? (
                   <View>
-                    <Image source={imageMap.get(activeLevel.getCurrentTaskAttachment())} />
+                    <Image style={styles.qimg} source={imageMap.get(activeLevel.getCurrentTaskAttachment())} />
                     <Text style={styles.question}>{activeLevel.getCurrentTask().text}</Text>
                   </View>
                 ) : (
@@ -175,7 +175,7 @@ export const Task = ({ route, navigation }) => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>
-            {answerStatus === 'correct' ? 'Правильный ответ!' : "Не правильный ответ"}
+            {answerStatus === 'correct' ? 'Правильный ответ!' : answerInfo}
             </Text>
             <TouchableOpacity
             style={styles.btn}
@@ -207,6 +207,11 @@ export const Task = ({ route, navigation }) => {
 }
 
 const styles = StyleSheet.create({
+  qimg: {
+    alignSelf: 'center',
+    marginTop: 107.5,
+    marginBottom: 107.5
+  },
     btn: {
         backgroundColor: '#D9D9D9',
         borderRadius: 30,
@@ -220,7 +225,7 @@ const styles = StyleSheet.create({
     btntext: {
       fontSize: 20,
       paddingLeft: 15,
-      paddingRight: 15
+      paddingRight: 15,
     },
     modalContainer: {
         flex: 1,
@@ -235,15 +240,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
       },
       modalText: {
-        fontSize: 24,
+        fontSize: 20,
         marginBottom: 20,
         textAlign: 'center',
       },
     answers: {
         flexDirection: "row",
         flexWrap: "wrap",
-        alignItems: 'flex-end',
-        justifyContent: 'center'
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'flex-end',
     },
     answer: {
      backgroundColor: '#A19B9B',
@@ -265,18 +271,20 @@ const styles = StyleSheet.create({
     },
     container: {
       flex: 1,
+      justifyContent: 'flex-end',
+      alignItems: 'flex-end'
     },
     question: {
       fontSize: 27,
       alignSelf: "center",
-      marginTop: 20
+      marginTop: 10
     },
     play: {
       width: 100,
       height: 100,
       alignSelf: 'center',
       marginTop: 150,
-      marginBottom: 100
+      marginBottom: 150
     }
   });
   

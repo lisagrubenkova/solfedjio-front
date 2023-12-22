@@ -1,19 +1,19 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal, TouchableWithoutFeedback, ImageBackground} from 'react-native';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { HOST, cookies} from "../Const";
 import { Reward } from '../RewardsPage/Reward';
 
 export const LevelComplete = ({route, navigation}) => {
   const { completedLevel } = route.params;
   const [modalVisible, setModalVisible] = completedLevel.getLevelId() == 1 ? useState(true) : useState(false);
-  postStatistics(completedLevel.getAllAnswersCount(), completedLevel.getRightAnswersCount(), completedLevel.getLevelId());
+  
   return (
     <View style={styles.container}>
       <ImageBackground source={require( '../imgs/bg.png' )} resizeMode="cover" style={styles.bg}>
       <Text style={styles.levelText}>Уровень пройден!!!</Text>
       <Text  style={styles.text}>Количество правильных ответов: {completedLevel.getRightAnswersCount()} из {completedLevel.getAllAnswersCount()}</Text>
-      <TouchableOpacity style={styles.button} onPress={() => {navigation.navigate('Main')} }>
+      <TouchableOpacity style={styles.button} onPress={() => toLevels(navigation, completedLevel) }>
         <Text style={styles.buttonText}>Продолжить играть</Text>
       </TouchableOpacity>
       <Modal
@@ -35,7 +35,12 @@ export const LevelComplete = ({route, navigation}) => {
   );
 };
 
-async function postStatistics(all_answers_count, right_answers_count, level_id) {
+function toLevels(navigation, completedLevel) {
+  postStatistics(completedLevel.getAllAnswersCount(), completedLevel.getRightAnswersCount(), completedLevel.getLevelId());
+  navigation.navigate('Main');
+}
+
+function postStatistics(all_answers_count, right_answers_count, level_id) {
   const requestOptions = {
     method: 'POST',
     headers: { 
@@ -48,7 +53,7 @@ async function postStatistics(all_answers_count, right_answers_count, level_id) 
       level_id: level_id
     })
   };
-  const levels = await fetch(HOST + 'stat/create', requestOptions)
+  const levels = fetch(HOST + 'stat/create', requestOptions)
   .then(response => response.json())
   .then(json => json.result)
   .catch((err) => {

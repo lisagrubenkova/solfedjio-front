@@ -82,8 +82,7 @@ async function getStatsCount(setFinishedLevelCount, setRightAnswersCount, setRig
 
   setFinishedLevelCount(stats.length);
   setRightAnswersCount(rightAnswersCount);
-  setRightAnswersPercent((rightAnswersCount / allAnswersCount * 100).toFixed(2));
-
+  setRightAnswersPercent(allAnswersCount == 0 ? 0 : (rightAnswersCount / allAnswersCount * 100).toFixed(2));
 }
 
 async function getUsername() {

@@ -1,116 +1,13 @@
 import React from "react";
-import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, View, StyleSheet, Modal } from 'react-native';
 import { HOST, cookies } from "../Const";
+import { useState } from 'react';
 import ActiveLevel from "../Task";
 
 export const Level = (props) => {
-    const state = {
-        tasks: [
-            {
-              id: 0,
-              text: "string",
-              type: 'one',
-              attachments: [
-                {
-                  id: 0,
-                  path: 'do',
-                  type: 'photo'
-                }
-              ],
-              answers: [
-                {
-                  id: 0,
-                  text: "Басовый",
-                  is_right: true
-                },
-                {
-                    id: 1,
-                    text: "Скрипичный",
-                    is_right: false
-                  },
-                  {
-                    id: 2,
-                    text: "Альтовый",
-                    is_right: false
-                  },
-                  {
-                    id: 3,
-                    text: "Теноровый",
-                    is_right: false
-                  }
-              ],
-              explanation: 'Нота до пишется на первой добавочной линейке'
-            },
-            {
-                id: 0,
-                text: "string",
-                type: 'two',
-                attachments: [
-                  {
-                    id: 0,
-                    path: 'do',
-                    type: 'photo'
-                  }
-                ],
-                answers: [
-                  {
-                    id: 0,
-                    text: "Нотный стан",
-                    is_right: true
-                  },
-                  {
-                      id: 1,
-                      text: "Нотоносец",
-                      is_right: false
-                    },
-                    {
-                      id: 2,
-                      text: "Нотный лист",
-                      is_right: false
-                    },
-                    {
-                      id: 3,
-                      text: "Нотная линейка",
-                      is_right: false
-                    }
-                ]
-              },
-              {
-                id: 0,
-                text: "string",
-                type: 'two',
-                attachments: [
-                  {
-                    id: 0,
-                    path: './LevelsPage/do.png',
-                    type: 'photo'
-                  }
-                ],
-                answers: [
-                  {
-                    id: 0,
-                    text: "fvf",
-                    is_right: true
-                  },
-                  {
-                      id: 1,
-                      text: "vfs",
-                      is_right: false
-                    },
-                    {
-                      id: 2,
-                      text: "vsd",
-                      is_right: false
-                    },
-                    {
-                      id: 3,
-                      text: "vsf",
-                      is_right: false
-                    }
-                ]
-              },
-          ]
-    }
+    const [modalVisible, setModalVisible] = useState(false);
+    const [stats, setStats] = useState(null);
+
     const isFinished = props.is_finished;
     const isEven = props.id % 2 === 0;
     const dynamicStyle = isEven ? styles.levelRight : styles.level;
@@ -139,16 +36,72 @@ export const Level = (props) => {
      
     return(
         <View style={styles.container}>
-        <TouchableOpacity style={[dynamicStyle, dynamicColor]} onPress={() => startLevel(props)}>
-        {/* <TouchableOpacity style={[dynamicStyle, dynamicColor]} onPress={() => props.navigation.navigate('Task', {
-            levelId: props.id,
-            tasks: state.tasks,
-            index: 0
-        })}>  */}
+        <TouchableOpacity style={[dynamicStyle, dynamicColor]} onPress={() => resolveAction(isFinished, props, setModalVisible, setStats)}>
         <Text style={styles.buttonText}>{props.id}</Text>
-      </TouchableOpacity>
+        </TouchableOpacity>
+        <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(false);
+        }}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>
+            {'Этот уровень уже пройден!'}
+            </Text>
+            <Text style={styles.stattext}>
+            Количество правильных ответов: {stats == null ? "123" : stats.right_answers_count}
+            </Text>
+            <Text style={styles.stattext}>
+            Количество вопросов: {stats == null ? "123" : stats.all_answers_count}
+            </Text>
+            <TouchableOpacity
+            style={styles.btn}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+                startLevel(props);
+                }}>
+                  <Text  style={styles.btntext}>Пройти заново</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+            style={styles.btn}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+                }}>
+                  <Text  style={styles.btntext}>Отмена</Text>
+                </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
       </View>
     );
+}
+
+function resolveAction(isFinished, props, setModalVisible, setStats) {
+  if (isFinished) {
+    getStatistics(props, setStats);
+    setModalVisible(true);
+  } else {
+    startLevel(props);
+  }
+}
+
+function getStatistics(props, setStats) {
+  const requestOptions = {
+    method: 'GET',
+    headers: { 
+      'Content-Type': 'application/json',
+      Cookie: cookies
+    }
+  };
+  const stats = fetch(HOST + 'stat/' + props.id, requestOptions)
+  .then(response => response.json())
+  .then(json => setStats(json.result))
+  .catch((err) => {
+    console.log(err.message);
+  });
 }
 
 function startLevel(props) {
@@ -215,4 +168,42 @@ const styles = StyleSheet.create({
         fontSize: 50,
         alignSelf: 'center'
     },
+    modalContainer: {
+      flex: 1,
+      justifyContent: 'flex-end',   
+    },
+    modalContent: {
+      backgroundColor: '#A19B9B',
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
+      height: 350,
+      padding: 20,
+      justifyContent: 'center',
+    },
+    modalText: {
+      fontSize: 28,
+      marginBottom: 60,
+      textAlign: 'center',
+    },
+    btn: {
+      backgroundColor: '#D9D9D9',
+      borderRadius: 10,
+      height: 55,
+      width: 180,
+      alignSelf: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 50,
+      marginBottom: 10,
+  },
+  btntext: {
+    fontSize: 20,
+    paddingLeft: 15,
+    paddingRight: 15,
+  },
+  stattext: {
+    fontSize: 24,
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
 })

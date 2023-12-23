@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    width: 217,
+    width: 300,
     height: 48,
     backgroundColor: '#D9D9D9',
     borderWidth: 0,
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 100,
     justifyContent: 'center',
-    fontSize: 22,
+    fontSize: 20,
     textAlign: 'center',},
   loginButton: {
     backgroundColor: '#4A94D7',

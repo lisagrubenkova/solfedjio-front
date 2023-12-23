@@ -182,11 +182,12 @@ const styles = StyleSheet.create({
     },
     modalText: {
       fontSize: 28,
-      marginBottom: 60,
+      marginTop: 40,
+      marginBottom: 20,
       textAlign: 'center',
     },
     btn: {
-      backgroundColor: '#D9D9D9',
+      backgroundColor: '#64D4EF',
       borderRadius: 10,
       height: 55,
       width: 180,
@@ -200,10 +201,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingLeft: 15,
     paddingRight: 15,
+    color: '#FFFFFF'
   },
   stattext: {
-    fontSize: 24,
-    paddingLeft: 0,
-    paddingRight: 0,
+    fontSize: 20,
+    marginBottom: 10,
+    textAlign: 'center'
   },
 })
